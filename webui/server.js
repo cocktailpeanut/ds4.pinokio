@@ -15,6 +15,13 @@ const mimeTypes = {
   ".svg": "image/svg+xml; charset=utf-8"
 }
 
+const noCacheHeaders = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+  "Pragma": "no-cache",
+  "Expires": "0",
+  "Surrogate-Control": "no-store"
+}
+
 function getArg(name, fallback) {
   const index = process.argv.indexOf(`--${name}`)
   if (index === -1 || index + 1 >= process.argv.length) return fallback
@@ -28,7 +35,7 @@ const target = new URL(getArg("target", process.env.DS4_URL || "http://127.0.0.1
 function send(res, status, body, type = "text/plain; charset=utf-8") {
   res.writeHead(status, {
     "Content-Type": type,
-    "Cache-Control": "no-store"
+    ...noCacheHeaders
   })
   res.end(body)
 }
@@ -59,7 +66,7 @@ function serveFile(req, res) {
     const ext = path.extname(resolved)
     res.writeHead(200, {
       "Content-Type": mimeTypes[ext] || "application/octet-stream",
-      "Cache-Control": ext === ".html" ? "no-store" : "public, max-age=3600"
+      ...noCacheHeaders
     })
     res.end(data)
   })
@@ -81,6 +88,11 @@ function proxy(req, res) {
   }, (upstreamRes) => {
     const responseHeaders = { ...upstreamRes.headers }
     responseHeaders["Access-Control-Allow-Origin"] = "*"
+    delete responseHeaders["cache-control"]
+    delete responseHeaders.pragma
+    delete responseHeaders.expires
+    delete responseHeaders["surrogate-control"]
+    Object.assign(responseHeaders, noCacheHeaders)
     res.writeHead(upstreamRes.statusCode || 502, responseHeaders)
     upstreamRes.pipe(res)
   })
@@ -99,6 +111,7 @@ function proxy(req, res) {
 const server = http.createServer((req, res) => {
   if (req.method === "OPTIONS") {
     res.writeHead(204, {
+      ...noCacheHeaders,
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type,Authorization"
