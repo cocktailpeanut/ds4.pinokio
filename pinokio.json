@@ -1,0 +1,4 @@
+{
+  "title": "ds4.c",
+  "description": "Metal-only DeepSeek V4 Flash inference server with OpenAI and Anthropic-compatible APIs."
+}
