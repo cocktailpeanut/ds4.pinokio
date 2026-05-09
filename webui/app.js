@@ -3,6 +3,7 @@ const storeKey = "ds4.webui.state.v1"
 
 const el = {
   connection: document.getElementById("connection"),
+  workspace: document.getElementById("workspace"),
   chatList: document.getElementById("chatList"),
   transcript: document.getElementById("transcript"),
   composer: document.getElementById("composer"),
@@ -148,6 +149,10 @@ function applyReasoningState(messageId, shell, toggle, body, open) {
   if (open) body.scrollTop = body.scrollHeight
 }
 
+function syncWorkspaceMode(conversation) {
+  el.workspace.classList.toggle("empty-chat", conversation.messages.length === 0)
+}
+
 function renderChatList() {
   el.chatList.innerHTML = ""
   for (const conversation of state.conversations) {
@@ -179,6 +184,7 @@ function renderChatList() {
 
 function renderTranscript() {
   const conversation = activeConversation()
+  syncWorkspaceMode(conversation)
   const openReasoningBodies = []
   const latestMessage = conversation.messages[conversation.messages.length - 1]
   el.transcript.innerHTML = ""
@@ -187,8 +193,7 @@ function renderTranscript() {
     el.transcript.innerHTML = `
       <div class="empty">
         <div class="empty-inner">
-          <h1>Local DeepSeek, direct.</h1>
-          <p>Ready on localhost.</p>
+          <h1>What's on your mind?</h1>
         </div>
       </div>
     `

@@ -1,21 +1,21 @@
 :root {
   color-scheme: light;
-  --bg: oklch(98.5% 0 0);
+  --bg: oklch(99% 0 0);
   --surface: oklch(100% 0 0);
-  --panel: oklch(97.2% 0 0);
-  --panel-strong: oklch(93.8% 0 0);
-  --line: oklch(89% 0 0);
-  --line-strong: oklch(78% 0 0);
+  --panel: oklch(97.7% 0 0);
+  --panel-strong: oklch(94.8% 0 0);
+  --line: oklch(92% 0 0);
+  --line-strong: oklch(76% 0 0);
   --text: oklch(18% 0 0);
   --muted: oklch(49% 0 0);
-  --faint: oklch(66% 0 0);
+  --faint: oklch(63% 0 0);
   --inverse: oklch(99% 0 0);
   --accent: oklch(18% 0 0);
   --danger: oklch(48% 0.16 25);
-  --user: oklch(96.5% 0 0);
+  --user: oklch(96.8% 0 0);
   --reasoning: oklch(97.8% 0 0);
   --focus: 0 0 0 3px color-mix(in oklch, var(--text), transparent 88%);
-  --shadow: 0 24px 80px color-mix(in oklch, var(--text), transparent 88%);
+  --shadow: 0 22px 70px color-mix(in oklch, var(--text), transparent 88%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -71,7 +71,7 @@ button {
   position: fixed;
   inset: 0;
   display: grid;
-  grid-template-columns: 264px minmax(0, 1fr);
+  grid-template-columns: 304px minmax(0, 1fr);
   height: 100dvh;
   min-height: 0;
   overflow: hidden;
@@ -83,10 +83,10 @@ button {
   min-width: 0;
   min-height: 0;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   border-right: 1px solid var(--line);
   background: var(--panel);
-  padding: 16px;
+  padding: 18px 8px 12px;
 }
 
 .brand {
@@ -94,11 +94,12 @@ button {
   min-width: 0;
   align-items: center;
   gap: 10px;
+  padding: 6px 12px 10px;
 }
 
 .brand img {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   object-fit: contain;
 }
 
@@ -126,10 +127,10 @@ button {
 .icon-button,
 .rail-toggle {
   display: inline-grid;
-  min-height: 34px;
+  min-height: 38px;
   place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 6px;
+  border: 1px solid transparent;
+  border-radius: 10px;
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
@@ -137,14 +138,18 @@ button {
 }
 
 .new-chat {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: var(--inverse);
-  font-weight: 600;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  background: var(--panel-strong);
+  color: var(--text);
+  font-weight: 500;
+  padding: 0 14px;
 }
 
 .new-chat:hover {
-  opacity: 0.86;
+  background: color-mix(in oklch, var(--panel-strong), var(--text) 4%);
 }
 
 .ghost-button:hover,
@@ -160,9 +165,9 @@ button {
   min-height: 0;
   flex: 1;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
   overflow: auto;
-  padding-right: 2px;
+  padding: 2px 0;
 }
 
 .chat-item {
@@ -170,7 +175,7 @@ button {
   grid-template-columns: minmax(0, 1fr) 26px;
   gap: 4px;
   align-items: center;
-  border-radius: 6px;
+  border-radius: 10px;
 }
 
 .chat-item button {
@@ -180,7 +185,7 @@ button {
 }
 
 .chat-title {
-  padding: 8px 9px;
+  padding: 8px 12px;
   color: var(--muted);
   overflow: hidden;
   text-align: left;
@@ -191,13 +196,13 @@ button {
 .chat-delete {
   width: 26px;
   height: 26px;
-  border-radius: 5px;
+  border-radius: 7px;
   color: var(--faint);
 }
 
 .chat-item.active,
 .chat-item:hover {
-  background: var(--surface);
+  background: var(--panel-strong);
 }
 
 .chat-item.active .chat-title {
@@ -206,6 +211,7 @@ button {
 }
 
 .workspace {
+  position: relative;
   display: grid;
   min-width: 0;
   min-height: 0;
@@ -219,8 +225,8 @@ button {
   justify-content: space-between;
   gap: 18px;
   min-height: 58px;
-  border-bottom: 1px solid var(--line);
-  padding: 12px 18px;
+  border-bottom: 1px solid transparent;
+  padding: 12px 20px;
 }
 
 .model-block strong {
@@ -248,31 +254,28 @@ button {
 .transcript {
   min-height: 0;
   overflow: auto;
-  padding: 36px 24px 28px;
+  padding: 42px 24px 26px;
 }
 
 .empty {
   display: grid;
   min-height: 100%;
   place-items: center;
+  pointer-events: none;
+  text-align: center;
 }
 
 .empty-inner {
-  width: min(580px, 100%);
+  width: min(760px, 100%);
+  padding-bottom: 118px;
 }
 
 .empty h1 {
-  margin: 0 0 10px;
-  font-size: 42px;
-  font-weight: 650;
-  line-height: 1;
-}
-
-.empty p {
   margin: 0;
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.5;
+  font-size: clamp(28px, 3vw, 36px);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.12;
 }
 
 .turn {
@@ -382,13 +385,51 @@ button {
   padding: 12px;
 }
 
+.workspace.empty-chat .transcript {
+  display: grid;
+  overflow: hidden;
+  padding: 0 24px 188px;
+  place-items: center;
+}
+
+.workspace.empty-chat .topbar {
+  border-bottom-color: transparent;
+}
+
+.workspace.empty-chat .composer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-42px);
+  border-top: 0;
+  background: transparent;
+  padding: 0 24px;
+  pointer-events: none;
+}
+
+.workspace.empty-chat .composer-shell {
+  width: min(1000px, calc(100% - 48px));
+  min-height: 74px;
+  border-radius: 34px;
+  box-shadow: 0 22px 70px color-mix(in oklch, var(--text), transparent 91%);
+  padding: 10px 10px 10px 24px;
+  pointer-events: auto;
+}
+
+.workspace.empty-chat .composer textarea {
+  min-height: 44px;
+  padding: 12px 0;
+}
+
 .composer {
   display: flex;
   justify-content: center;
-  border-top: 1px solid color-mix(in oklch, var(--line), transparent 44%);
+  border-top: 0;
   background:
-    linear-gradient(to top, var(--surface) 74%, color-mix(in oklch, var(--surface), transparent 8%) 92%, transparent);
-  padding: 18px 24px 22px;
+    linear-gradient(to top, var(--surface) 78%, color-mix(in oklch, var(--surface), transparent 10%) 92%, transparent);
+  padding: 14px 24px 24px;
 }
 
 .composer-shell {
@@ -396,19 +437,19 @@ button {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 12px;
   align-items: end;
-  width: min(820px, 100%);
-  min-height: 56px;
+  width: min(780px, 100%);
+  min-height: 58px;
   border: 1px solid var(--line);
-  border-radius: 26px;
+  border-radius: 30px;
   background: var(--surface);
-  box-shadow: 0 10px 34px color-mix(in oklch, var(--text), transparent 92%);
+  box-shadow: 0 8px 26px color-mix(in oklch, var(--text), transparent 93%);
   padding: 8px 8px 8px 18px;
   transition: border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
 }
 
 .composer-shell:focus-within {
   border-color: var(--line-strong);
-  box-shadow: var(--focus), 0 14px 44px color-mix(in oklch, var(--text), transparent 90%);
+  box-shadow: var(--focus), 0 14px 44px color-mix(in oklch, var(--text), transparent 91%);
 }
 
 .composer textarea,
@@ -429,6 +470,7 @@ button {
   background: transparent;
   resize: none;
   padding: 9px 0 8px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -585,6 +627,7 @@ button {
 
   .topbar {
     align-items: stretch;
+    padding: 10px 12px;
   }
 
   .transcript {
@@ -601,8 +644,28 @@ button {
     padding-left: 16px;
   }
 
+  .workspace.empty-chat .transcript {
+    padding: 0 16px 156px;
+  }
+
+  .workspace.empty-chat .empty-inner {
+    padding-bottom: 106px;
+  }
+
+  .workspace.empty-chat .composer {
+    padding: 0 12px;
+    transform: translateY(-30px);
+  }
+
+  .workspace.empty-chat .composer-shell {
+    width: 100%;
+    min-height: 64px;
+    border-radius: 30px;
+    padding: 8px 8px 8px 18px;
+  }
+
   .empty h1 {
-    font-size: 32px;
+    font-size: 28px;
   }
 }
 

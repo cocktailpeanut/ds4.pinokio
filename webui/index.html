@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ds4-webui</title>
     <link rel="icon" href="/icon.svg?v=20260509-cachefix">
-    <link rel="stylesheet" href="/styles.css?v=20260509-reasoning-pointer">
+    <link rel="stylesheet" href="/styles.css?v=20260509-chatgpt-layout">
   </head>
   <body>
     <div class="shell">
@@ -21,7 +21,7 @@
         <nav class="chat-list" id="chatList" aria-label="Conversations"></nav>
       </aside>
 
-      <main class="workspace">
+      <main class="workspace" id="workspace">
         <header class="topbar">
           <button class="rail-toggle" id="railToggle" type="button" aria-label="Toggle conversations">Menu</button>
           <div class="model-block">
@@ -38,7 +38,7 @@
 
         <form class="composer" id="composer">
           <div class="composer-shell">
-            <textarea id="prompt" name="prompt" rows="1" placeholder="Message ds4-webui"></textarea>
+            <textarea id="prompt" name="prompt" rows="1" placeholder="Ask anything"></textarea>
             <div class="composer-actions">
               <button class="stop-button" id="stopButton" type="button" aria-label="Stop generating" hidden>
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -91,6 +91,6 @@
       </aside>
     </div>
 
-    <script src="/app.js?v=20260509-reasoning-pointer"></script>
+    <script src="/app.js?v=20260509-chatgpt-layout"></script>
   </body>
 </html>
