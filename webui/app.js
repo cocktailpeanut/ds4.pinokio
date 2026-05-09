@@ -41,6 +41,7 @@ const defaults = {
 
 let state = loadState()
 let controller = null
+const openReasoning = new Set()
 
 function uid() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
@@ -188,6 +189,14 @@ function renderTranscript() {
     if (message.reasoning) {
       const reasoning = document.createElement("details")
       reasoning.className = "reasoning"
+      reasoning.open = openReasoning.has(message.id)
+      reasoning.addEventListener("toggle", () => {
+        if (reasoning.open) {
+          openReasoning.add(message.id)
+        } else {
+          openReasoning.delete(message.id)
+        }
+      })
       const summary = document.createElement("summary")
       summary.textContent = "Reasoning"
       const body = document.createElement("div")
