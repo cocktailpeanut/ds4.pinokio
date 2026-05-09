@@ -410,17 +410,19 @@ button {
 }
 
 .workspace.empty-chat .composer-shell {
+  align-items: center;
   width: min(1000px, calc(100% - 48px));
-  min-height: 74px;
+  min-height: 68px;
   border-radius: 34px;
   box-shadow: 0 22px 70px color-mix(in oklch, var(--text), transparent 91%);
-  padding: 10px 10px 10px 24px;
+  padding: 8px 10px 8px 24px;
   pointer-events: auto;
 }
 
 .workspace.empty-chat .composer textarea {
-  min-height: 44px;
-  padding: 12px 0;
+  min-height: 24px;
+  padding: 0;
+  line-height: 24px;
 }
 
 .composer {
@@ -659,7 +661,7 @@ button {
 
   .workspace.empty-chat .composer-shell {
     width: 100%;
-    min-height: 64px;
+    min-height: 62px;
     border-radius: 30px;
     padding: 8px 8px 8px 18px;
   }
