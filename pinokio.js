@@ -113,6 +113,10 @@ module.exports = {
       if (local && local.url) {
         return [{
           default: true,
+          icon: "fa-solid fa-comments",
+          text: "Open Chat",
+          href: local.url
+        }, {
           icon: "fa-solid fa-server",
           text: "Models API",
           href: `${local.url}/v1/models`

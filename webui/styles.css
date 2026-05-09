@@ -1,0 +1,467 @@
+:root {
+  color-scheme: light;
+  --bg: oklch(96% 0.011 165);
+  --surface: oklch(99% 0.006 165);
+  --panel: oklch(91% 0.018 168);
+  --panel-strong: oklch(86% 0.026 168);
+  --line: oklch(75% 0.032 168);
+  --text: oklch(20% 0.026 165);
+  --muted: oklch(46% 0.03 165);
+  --accent: oklch(43% 0.09 154);
+  --accent-strong: oklch(35% 0.11 154);
+  --danger: oklch(45% 0.15 28);
+  --user: oklch(92% 0.055 148);
+  --reasoning: oklch(94% 0.022 92);
+  --shadow: 0 20px 60px color-mix(in oklch, var(--text), transparent 86%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: oklch(18% 0.018 180);
+    --surface: oklch(23% 0.02 180);
+    --panel: oklch(27% 0.024 180);
+    --panel-strong: oklch(34% 0.032 180);
+    --line: oklch(42% 0.032 180);
+    --text: oklch(92% 0.012 170);
+    --muted: oklch(70% 0.022 170);
+    --accent: oklch(73% 0.12 150);
+    --accent-strong: oklch(82% 0.12 150);
+    --danger: oklch(70% 0.15 28);
+    --user: oklch(31% 0.045 155);
+    --reasoning: oklch(29% 0.04 92);
+    --shadow: 0 20px 70px color-mix(in oklch, black, transparent 60%);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Avenir Next, Aptos, Segoe UI, sans-serif;
+}
+
+button,
+textarea,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 14px;
+  border-right: 1px solid var(--line);
+  background: var(--panel);
+  padding: 18px 14px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.brand img {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.brand strong,
+.model-block strong {
+  display: block;
+  line-height: 1.1;
+}
+
+.brand span,
+.eyebrow {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.new-chat,
+.send-button,
+.stop-button,
+.ghost-button,
+.ghost-link,
+.icon-button,
+.rail-toggle {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.new-chat,
+.send-button {
+  border-color: color-mix(in oklch, var(--accent), var(--line) 35%);
+  background: var(--accent);
+  color: oklch(99% 0.006 150);
+  font-weight: 700;
+}
+
+.new-chat:hover,
+.send-button:hover {
+  background: var(--accent-strong);
+}
+
+.chat-list {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  overflow: auto;
+}
+
+.chat-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  gap: 4px;
+  align-items: center;
+  border-radius: 7px;
+}
+
+.chat-item button {
+  min-width: 0;
+  border: 0;
+  background: transparent;
+}
+
+.chat-title {
+  padding: 9px 10px;
+  color: var(--muted);
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-delete {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: var(--muted);
+}
+
+.chat-item.active,
+.chat-item:hover {
+  background: color-mix(in oklch, var(--surface), var(--panel-strong));
+}
+
+.chat-item.active .chat-title {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.workspace {
+  display: grid;
+  min-width: 0;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: var(--surface);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid var(--line);
+  padding: 14px 18px;
+}
+
+.rail-toggle {
+  display: none;
+  padding: 0 12px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ghost-button,
+.ghost-link,
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  padding: 0 12px;
+}
+
+.transcript {
+  min-height: 0;
+  overflow: auto;
+  padding: clamp(18px, 4vw, 48px);
+}
+
+.empty {
+  display: grid;
+  min-height: 100%;
+  place-items: center;
+}
+
+.empty-inner {
+  width: min(640px, 100%);
+}
+
+.empty h1 {
+  margin: 0 0 12px;
+  font-size: 46px;
+  line-height: 0.95;
+}
+
+.empty p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.turn {
+  display: grid;
+  gap: 8px;
+  margin: 0 auto 28px;
+  width: min(860px, 100%);
+}
+
+.turn-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.message {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.message.user {
+  justify-self: end;
+  max-width: min(680px, 94%);
+  border-radius: 8px;
+  background: var(--user);
+  padding: 12px 14px;
+}
+
+.message.assistant {
+  max-width: min(860px, 100%);
+}
+
+.message p {
+  margin: 0 0 12px;
+}
+
+.message p:last-child {
+  margin-bottom: 0;
+}
+
+.message pre {
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  padding: 12px;
+}
+
+.message code {
+  border-radius: 4px;
+  background: color-mix(in oklch, var(--panel), transparent 30%);
+  padding: 1px 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.92em;
+}
+
+.message pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.reasoning {
+  max-width: min(860px, 100%);
+  border-left: 3px solid color-mix(in oklch, var(--accent), var(--reasoning));
+  background: var(--reasoning);
+  padding: 10px 12px;
+}
+
+.reasoning summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.reasoning-body {
+  margin-top: 8px;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.composer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  padding: 14px 18px 18px;
+}
+
+.composer textarea,
+.settings-panel textarea,
+.settings-panel input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+}
+
+.composer textarea {
+  max-height: 220px;
+  min-height: 44px;
+  resize: none;
+  padding: 12px 14px;
+  line-height: 1.45;
+}
+
+.composer textarea:focus,
+.settings-panel textarea:focus,
+.settings-panel input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent), transparent 78%);
+}
+
+.send-button,
+.stop-button {
+  padding: 0 16px;
+}
+
+.stop-button {
+  border-color: color-mix(in oklch, var(--danger), var(--line) 40%);
+  color: var(--danger);
+}
+
+.settings-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  width: min(380px, 100vw);
+  transform: translateX(100%);
+  flex-direction: column;
+  gap: 18px;
+  border-left: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  transition: transform 180ms ease-out;
+}
+
+.settings-panel.open {
+  transform: translateX(0);
+}
+
+.settings-panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settings-panel label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.settings-panel textarea,
+.settings-panel input[type="number"] {
+  padding: 10px 12px;
+}
+
+.settings-panel output {
+  color: var(--text);
+  font-size: 12px;
+}
+
+.error {
+  border: 1px solid color-mix(in oklch, var(--danger), var(--line));
+  border-radius: 8px;
+  background: color-mix(in oklch, var(--danger), transparent 88%);
+  color: var(--text);
+  padding: 12px 14px;
+}
+
+@media (max-width: 800px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 15;
+    width: min(320px, 86vw);
+    transform: translateX(-100%);
+    box-shadow: var(--shadow);
+    transition: transform 180ms ease-out;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .rail-toggle {
+    display: inline-grid;
+  }
+
+  .topbar {
+    align-items: stretch;
+  }
+
+  .composer {
+    grid-template-columns: 1fr;
+  }
+
+  .empty h1 {
+    font-size: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}

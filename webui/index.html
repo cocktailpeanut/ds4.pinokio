@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ds4.c Chat</title>
+    <link rel="icon" href="/icon.png">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar" id="sidebar">
+        <header class="brand">
+          <img src="/icon.png" alt="">
+          <div>
+            <strong>ds4.c</strong>
+            <span id="connection">Checking</span>
+          </div>
+        </header>
+        <button class="new-chat" id="newChat" type="button">New chat</button>
+        <nav class="chat-list" id="chatList" aria-label="Conversations"></nav>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <button class="rail-toggle" id="railToggle" type="button" aria-label="Toggle conversations">Menu</button>
+          <div class="model-block">
+            <span class="eyebrow">Model</span>
+            <strong>deepseek-v4-flash</strong>
+          </div>
+          <div class="topbar-actions">
+            <a class="ghost-link" href="/v1/models" target="_blank" rel="noreferrer">API</a>
+            <button class="ghost-button" id="settingsToggle" type="button">Settings</button>
+          </div>
+        </header>
+
+        <section class="transcript" id="transcript" aria-live="polite"></section>
+
+        <form class="composer" id="composer">
+          <textarea id="prompt" name="prompt" rows="1" placeholder="Message ds4.c"></textarea>
+          <button class="stop-button" id="stopButton" type="button" hidden>Stop</button>
+          <button class="send-button" id="sendButton" type="submit">Send</button>
+        </form>
+      </main>
+
+      <aside class="settings-panel" id="settingsPanel" aria-label="Chat settings">
+        <header>
+          <strong>Settings</strong>
+          <button class="icon-button" id="closeSettings" type="button" aria-label="Close settings">Close</button>
+        </header>
+        <label>
+          <span>System</span>
+          <textarea id="systemPrompt" rows="4" placeholder="Optional system message"></textarea>
+        </label>
+        <label>
+          <span>Max tokens</span>
+          <input id="maxTokens" type="number" min="1" max="32768" step="1">
+        </label>
+        <label>
+          <span>Temperature</span>
+          <input id="temperature" type="range" min="0" max="2" step="0.05">
+          <output id="temperatureOut"></output>
+        </label>
+        <label>
+          <span>Top p</span>
+          <input id="topP" type="range" min="0.05" max="1" step="0.01">
+          <output id="topPOut"></output>
+        </label>
+        <label>
+          <span>Top k</span>
+          <input id="topK" type="number" min="0" max="200" step="1">
+        </label>
+        <label>
+          <span>Min p</span>
+          <input id="minP" type="range" min="0" max="0.5" step="0.01">
+          <output id="minPOut"></output>
+        </label>
+      </aside>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

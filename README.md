@@ -14,10 +14,21 @@ This launcher installs and runs [`antirez/ds4`](https://github.com/antirez/ds4),
 
 1. Click **Install** to clone `antirez/ds4` into `app/` and build `ds4` plus `ds4-server`.
 2. Open **Download Models** and choose either **q2** or **q4**. The launcher uses Pinokio's Hugging Face download API and stores files under `app/gguf/`.
-3. Click **Start Server**. The launcher binds to `127.0.0.1` on an available port and enables disk KV cache under `cache/kv`.
-4. When the server is ready, open **Models API** to verify `/v1/models`.
+3. Click **Start Server**. The launcher binds ds4 to `127.0.0.1` on an available port, enables disk KV cache under `cache/kv`, then starts a small local chat UI with an API proxy.
+4. When the server is ready, open **Open Chat** for the built-in Web UI or **Models API** to verify `/v1/models`.
 
 The **MTP optional draft model** download adds the speculative decoding GGUF. Once downloaded, MTP start actions become available for the main models you have locally.
+
+## Web UI
+
+The built-in Web UI is a lightweight ds4-specific chat surface inspired by the llama.cpp server UI layout. It provides:
+
+- A left conversation rail with browser-local chat history.
+- Streaming chat against `POST /v1/chat/completions`.
+- A compact settings drawer for system prompt, max tokens, temperature, top-p, top-k, and min-p.
+- A local Node proxy so the browser calls the same Web UI origin while the proxy forwards to the ds4 API server.
+
+The UI stores conversations in the browser's `localStorage`. Clearing browser site data removes the chat history but does not affect downloaded GGUF files or the ds4 KV cache.
 
 ## Maintenance
 
