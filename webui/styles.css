@@ -1,36 +1,42 @@
 :root {
   color-scheme: light;
-  --bg: oklch(96% 0.011 165);
-  --surface: oklch(99% 0.006 165);
-  --panel: oklch(91% 0.018 168);
-  --panel-strong: oklch(86% 0.026 168);
-  --line: oklch(75% 0.032 168);
-  --text: oklch(20% 0.026 165);
-  --muted: oklch(46% 0.03 165);
-  --accent: oklch(43% 0.09 154);
-  --accent-strong: oklch(35% 0.11 154);
-  --danger: oklch(45% 0.15 28);
-  --user: oklch(92% 0.055 148);
-  --reasoning: oklch(94% 0.022 92);
-  --shadow: 0 20px 60px color-mix(in oklch, var(--text), transparent 86%);
+  --bg: oklch(98.5% 0 0);
+  --surface: oklch(100% 0 0);
+  --panel: oklch(97.2% 0 0);
+  --panel-strong: oklch(93.8% 0 0);
+  --line: oklch(89% 0 0);
+  --line-strong: oklch(78% 0 0);
+  --text: oklch(18% 0 0);
+  --muted: oklch(49% 0 0);
+  --faint: oklch(66% 0 0);
+  --inverse: oklch(99% 0 0);
+  --accent: oklch(18% 0 0);
+  --danger: oklch(48% 0.16 25);
+  --user: oklch(96.5% 0 0);
+  --reasoning: oklch(97.8% 0 0);
+  --focus: 0 0 0 3px color-mix(in oklch, var(--text), transparent 88%);
+  --shadow: 0 24px 80px color-mix(in oklch, var(--text), transparent 88%);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --bg: oklch(18% 0.018 180);
-    --surface: oklch(23% 0.02 180);
-    --panel: oklch(27% 0.024 180);
-    --panel-strong: oklch(34% 0.032 180);
-    --line: oklch(42% 0.032 180);
-    --text: oklch(92% 0.012 170);
-    --muted: oklch(70% 0.022 170);
-    --accent: oklch(73% 0.12 150);
-    --accent-strong: oklch(82% 0.12 150);
-    --danger: oklch(70% 0.15 28);
-    --user: oklch(31% 0.045 155);
-    --reasoning: oklch(29% 0.04 92);
-    --shadow: 0 20px 70px color-mix(in oklch, black, transparent 60%);
+    --bg: oklch(13.5% 0 0);
+    --surface: oklch(16.5% 0 0);
+    --panel: oklch(19% 0 0);
+    --panel-strong: oklch(25% 0 0);
+    --line: oklch(29% 0 0);
+    --line-strong: oklch(43% 0 0);
+    --text: oklch(94% 0 0);
+    --muted: oklch(66% 0 0);
+    --faint: oklch(53% 0 0);
+    --inverse: oklch(13.5% 0 0);
+    --accent: oklch(94% 0 0);
+    --danger: oklch(72% 0.16 25);
+    --user: oklch(22% 0 0);
+    --reasoning: oklch(20% 0 0);
+    --focus: 0 0 0 3px color-mix(in oklch, var(--text), transparent 82%);
+    --shadow: 0 24px 90px color-mix(in oklch, black, transparent 48%);
   }
 }
 
@@ -38,12 +44,17 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
-  min-height: 100vh;
+  overflow: hidden;
   background: var(--bg);
   color: var(--text);
-  font-family: Avenir Next, Aptos, Segoe UI, sans-serif;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 button,
@@ -57,34 +68,38 @@ button {
 }
 
 .shell {
+  position: fixed;
+  inset: 0;
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
-  height: 100vh;
+  grid-template-columns: 264px minmax(0, 1fr);
+  height: 100dvh;
+  min-height: 0;
   overflow: hidden;
+  background: var(--surface);
 }
 
 .sidebar {
   display: flex;
   min-width: 0;
+  min-height: 0;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   border-right: 1px solid var(--line);
   background: var(--panel);
-  padding: 18px 14px;
+  padding: 16px;
 }
 
 .brand {
   display: flex;
-  align-items: center;
-  gap: 12px;
   min-width: 0;
+  align-items: center;
+  gap: 10px;
 }
 
 .brand img {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  object-fit: cover;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
 .brand strong,
@@ -93,12 +108,16 @@ button {
   line-height: 1.1;
 }
 
+.brand strong {
+  font-size: 14px;
+}
+
 .brand span,
 .eyebrow {
   display: block;
   color: var(--muted);
   font-size: 12px;
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 .new-chat,
@@ -108,9 +127,11 @@ button {
 .ghost-link,
 .icon-button,
 .rail-toggle {
-  min-height: 36px;
+  display: inline-grid;
+  min-height: 34px;
+  place-items: center;
   border: 1px solid var(--line);
-  border-radius: 7px;
+  border-radius: 6px;
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
@@ -119,15 +140,24 @@ button {
 
 .new-chat,
 .send-button {
-  border-color: color-mix(in oklch, var(--accent), var(--line) 35%);
+  border-color: var(--accent);
   background: var(--accent);
-  color: oklch(99% 0.006 150);
-  font-weight: 700;
+  color: var(--inverse);
+  font-weight: 600;
 }
 
 .new-chat:hover,
 .send-button:hover {
-  background: var(--accent-strong);
+  opacity: 0.86;
+}
+
+.ghost-button:hover,
+.ghost-link:hover,
+.icon-button:hover,
+.rail-toggle:hover,
+.stop-button:hover {
+  border-color: var(--line-strong);
+  background: var(--panel);
 }
 
 .chat-list {
@@ -135,16 +165,17 @@ button {
   min-height: 0;
   flex: 1;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   overflow: auto;
+  padding-right: 2px;
 }
 
 .chat-item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 28px;
+  grid-template-columns: minmax(0, 1fr) 26px;
   gap: 4px;
   align-items: center;
-  border-radius: 7px;
+  border-radius: 6px;
 }
 
 .chat-item button {
@@ -154,7 +185,7 @@ button {
 }
 
 .chat-title {
-  padding: 9px 10px;
+  padding: 8px 9px;
   color: var(--muted);
   overflow: hidden;
   text-align: left;
@@ -163,25 +194,26 @@ button {
 }
 
 .chat-delete {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  color: var(--muted);
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  color: var(--faint);
 }
 
 .chat-item.active,
 .chat-item:hover {
-  background: color-mix(in oklch, var(--surface), var(--panel-strong));
+  background: var(--surface);
 }
 
 .chat-item.active .chat-title {
   color: var(--text);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .workspace {
   display: grid;
   min-width: 0;
+  min-height: 0;
   grid-template-rows: auto minmax(0, 1fr) auto;
   background: var(--surface);
 }
@@ -191,8 +223,14 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
+  min-height: 58px;
   border-bottom: 1px solid var(--line);
-  padding: 14px 18px;
+  padding: 12px 18px;
+}
+
+.model-block strong {
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .rail-toggle {
@@ -209,15 +247,13 @@ button {
 .ghost-button,
 .ghost-link,
 .icon-button {
-  display: inline-grid;
-  place-items: center;
   padding: 0 12px;
 }
 
 .transcript {
   min-height: 0;
   overflow: auto;
-  padding: clamp(18px, 4vw, 48px);
+  padding: 36px 24px 28px;
 }
 
 .empty {
@@ -227,51 +263,54 @@ button {
 }
 
 .empty-inner {
-  width: min(640px, 100%);
+  width: min(580px, 100%);
 }
 
 .empty h1 {
-  margin: 0 0 12px;
-  font-size: 46px;
-  line-height: 0.95;
+  margin: 0 0 10px;
+  font-size: 42px;
+  font-weight: 650;
+  line-height: 1;
 }
 
 .empty p {
   margin: 0;
   color: var(--muted);
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.5;
 }
 
 .turn {
   display: grid;
-  gap: 8px;
-  margin: 0 auto 28px;
-  width: min(860px, 100%);
+  gap: 9px;
+  margin: 0 auto 30px;
+  width: min(820px, 100%);
 }
 
 .turn-label {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
 .message {
-  line-height: 1.6;
+  color: var(--text);
+  line-height: 1.65;
   overflow-wrap: anywhere;
 }
 
 .message.user {
   justify-self: end;
-  max-width: min(680px, 94%);
+  max-width: min(640px, 92%);
+  border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--user);
-  padding: 12px 14px;
+  padding: 11px 13px;
 }
 
 .message.assistant {
-  max-width: min(860px, 100%);
+  max-width: min(820px, 100%);
 }
 
 .message p {
@@ -286,13 +325,13 @@ button {
   overflow: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--bg);
+  background: var(--panel);
   padding: 12px;
 }
 
 .message code {
   border-radius: 4px;
-  background: color-mix(in oklch, var(--panel), transparent 30%);
+  background: var(--panel);
   padding: 1px 4px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.92em;
@@ -304,23 +343,45 @@ button {
 }
 
 .reasoning {
-  max-width: min(860px, 100%);
-  border-left: 3px solid color-mix(in oklch, var(--accent), var(--reasoning));
+  max-width: min(820px, 100%);
+  border: 1px solid var(--line);
+  border-radius: 8px;
   background: var(--reasoning);
-  padding: 10px 12px;
 }
 
 .reasoning summary {
+  display: flex;
+  align-items: center;
+  min-height: 34px;
   cursor: pointer;
   color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
+  list-style: none;
+  padding: 0 12px;
+}
+
+.reasoning summary::-webkit-details-marker {
+  display: none;
+}
+
+.reasoning summary::after {
+  content: "+";
+  margin-left: auto;
+  color: var(--faint);
+}
+
+.reasoning[open] summary::after {
+  content: "-";
 }
 
 .reasoning-body {
-  margin-top: 8px;
-  color: var(--text);
-  line-height: 1.55;
+  max-height: min(34dvh, 340px);
+  overflow: auto;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  line-height: 1.6;
+  padding: 12px;
 }
 
 .composer {
@@ -329,8 +390,8 @@ button {
   gap: 10px;
   align-items: end;
   border-top: 1px solid var(--line);
-  background: var(--surface);
-  padding: 14px 18px 18px;
+  background: color-mix(in oklch, var(--surface), var(--panel) 36%);
+  padding: 14px 18px;
 }
 
 .composer textarea,
@@ -338,25 +399,25 @@ button {
 .settings-panel input {
   width: 100%;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--bg);
+  border-radius: 7px;
+  background: var(--surface);
   color: var(--text);
   outline: none;
 }
 
 .composer textarea {
-  max-height: 220px;
-  min-height: 44px;
+  max-height: 180px;
+  min-height: 42px;
   resize: none;
-  padding: 12px 14px;
+  padding: 11px 13px;
   line-height: 1.45;
 }
 
 .composer textarea:focus,
 .settings-panel textarea:focus,
 .settings-panel input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent), transparent 78%);
+  border-color: var(--line-strong);
+  box-shadow: var(--focus);
 }
 
 .send-button,
@@ -365,7 +426,7 @@ button {
 }
 
 .stop-button {
-  border-color: color-mix(in oklch, var(--danger), var(--line) 40%);
+  border-color: color-mix(in oklch, var(--danger), var(--line) 35%);
   color: var(--danger);
 }
 
@@ -381,10 +442,10 @@ button {
   flex-direction: column;
   gap: 18px;
   border-left: 1px solid var(--line);
-  background: var(--panel);
+  background: var(--surface);
   box-shadow: var(--shadow);
   padding: 18px;
-  transition: transform 180ms ease-out;
+  transition: transform 160ms ease-out;
 }
 
 .settings-panel.open {
@@ -402,7 +463,7 @@ button {
   gap: 8px;
   color: var(--muted);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .settings-panel textarea,
@@ -418,7 +479,7 @@ button {
 .error {
   border: 1px solid color-mix(in oklch, var(--danger), var(--line));
   border-radius: 8px;
-  background: color-mix(in oklch, var(--danger), transparent 88%);
+  background: color-mix(in oklch, var(--danger), transparent 90%);
   color: var(--text);
   padding: 12px 14px;
 }
@@ -435,7 +496,7 @@ button {
     width: min(320px, 86vw);
     transform: translateX(-100%);
     box-shadow: var(--shadow);
-    transition: transform 180ms ease-out;
+    transition: transform 160ms ease-out;
   }
 
   .sidebar.open {
@@ -450,12 +511,16 @@ button {
     align-items: stretch;
   }
 
+  .transcript {
+    padding: 28px 16px 22px;
+  }
+
   .composer {
     grid-template-columns: 1fr;
   }
 
   .empty h1 {
-    font-size: 34px;
+    font-size: 32px;
   }
 }
 

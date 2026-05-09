@@ -12,7 +12,6 @@ const mimeTypes = {
   ".css": "text/css; charset=utf-8",
   ".js": "application/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
-  ".png": "image/png",
   ".svg": "image/svg+xml; charset=utf-8"
 }
 
@@ -40,14 +39,14 @@ function serveFile(req, res) {
   if (pathname === "/") pathname = "/index.html"
 
   let filePath
-  if (pathname === "/icon.png") {
-    filePath = path.join(launcherRoot, "icon.png")
+  if (pathname === "/icon.svg") {
+    filePath = path.join(launcherRoot, "icon.svg")
   } else {
     filePath = path.join(root, pathname)
   }
 
   const resolved = path.resolve(filePath)
-  if (!resolved.startsWith(root) && resolved !== path.join(launcherRoot, "icon.png")) {
+  if (!resolved.startsWith(root) && resolved !== path.join(launcherRoot, "icon.svg")) {
     send(res, 403, "Forbidden")
     return
   }
