@@ -23,6 +23,7 @@ module.exports = {
   version: "7.0",
   title: "ds4.c",
   description: "Metal-only DeepSeek V4 Flash inference engine with OpenAI and Anthropic-compatible local HTTP APIs.",
+  icon: "icon.png",
   pre: [{
     title: "Apple Silicon macOS",
     description: "ds4-server is Metal-only and is intended for high-memory Apple Silicon machines."
