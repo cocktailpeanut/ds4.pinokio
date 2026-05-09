@@ -140,6 +140,14 @@ function setReasoningOpen(messageId, open) {
   }
 }
 
+function applyReasoningState(messageId, shell, toggle, body, open) {
+  setReasoningOpen(messageId, open)
+  shell.classList.toggle("open", open)
+  toggle.setAttribute("aria-expanded", String(open))
+  body.hidden = !open
+  if (open) body.scrollTop = body.scrollHeight
+}
+
 function renderChatList() {
   el.chatList.innerHTML = ""
   for (const conversation of state.conversations) {
@@ -172,6 +180,7 @@ function renderChatList() {
 function renderTranscript() {
   const conversation = activeConversation()
   const openReasoningBodies = []
+  const latestMessage = conversation.messages[conversation.messages.length - 1]
   el.transcript.innerHTML = ""
 
   if (conversation.messages.length === 0) {
@@ -196,23 +205,35 @@ function renderTranscript() {
     turn.append(label)
 
     if (message.reasoning) {
-      const reasoning = document.createElement("details")
+      const isReasoningOpen = openReasoning.has(message.id)
+      const reasoning = document.createElement("div")
       reasoning.className = "reasoning"
-      reasoning.open = openReasoning.has(message.id)
-      const summary = document.createElement("summary")
-      summary.textContent = "Reasoning"
+      reasoning.classList.toggle("open", isReasoningOpen)
+      const toggle = document.createElement("button")
+      toggle.className = "reasoning-toggle"
+      toggle.type = "button"
+      toggle.textContent = "Reasoning"
+      toggle.setAttribute("aria-expanded", String(isReasoningOpen))
       const body = document.createElement("div")
       body.className = "reasoning-body"
+      body.hidden = !isReasoningOpen
       body.innerHTML = renderMarkdown(message.reasoning)
-      summary.addEventListener("click", (event) => {
+      const toggleReasoning = (event) => {
         event.preventDefault()
-        setReasoningOpen(message.id, !reasoning.open)
-        reasoning.open = openReasoning.has(message.id)
-        if (reasoning.open) body.scrollTop = body.scrollHeight
+        applyReasoningState(message.id, reasoning, toggle, body, !openReasoning.has(message.id))
+      }
+      toggle.addEventListener("pointerdown", toggleReasoning)
+      toggle.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") toggleReasoning(event)
       })
-      reasoning.append(summary, body)
+      reasoning.append(toggle, body)
       turn.append(reasoning)
-      if (reasoning.open) openReasoningBodies.push(body)
+      if (isReasoningOpen) {
+        openReasoningBodies.push({
+          body,
+          active: Boolean(controller) && message.id === latestMessage.id
+        })
+      }
     }
 
     const body = document.createElement("div")
@@ -222,10 +243,14 @@ function renderTranscript() {
     el.transcript.append(turn)
   }
 
-  for (const body of openReasoningBodies) {
-    body.scrollTop = body.scrollHeight
+  if (openReasoningBodies.length > 0) {
+    for (const { body } of openReasoningBodies) {
+      body.scrollTop = body.scrollHeight
+    }
   }
-  el.transcript.scrollTop = el.transcript.scrollHeight
+  if (!openReasoningBodies.some((item) => item.active)) {
+    el.transcript.scrollTop = el.transcript.scrollHeight
+  }
 }
 
 function renderSettings() {

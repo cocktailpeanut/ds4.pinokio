@@ -344,29 +344,32 @@ button {
   background: var(--reasoning);
 }
 
-.reasoning summary {
+.reasoning-toggle {
   display: flex;
+  width: 100%;
   align-items: center;
   min-height: 34px;
+  border: 0;
+  background: transparent;
   cursor: pointer;
   color: var(--muted);
   font-size: 12px;
   font-weight: 600;
-  list-style: none;
   padding: 0 12px;
+  text-align: left;
 }
 
-.reasoning summary::-webkit-details-marker {
-  display: none;
+.reasoning-toggle:hover {
+  color: var(--text);
 }
 
-.reasoning summary::after {
+.reasoning-toggle::after {
   content: "+";
   margin-left: auto;
   color: var(--faint);
 }
 
-.reasoning[open] summary::after {
+.reasoning.open .reasoning-toggle::after {
   content: "-";
 }
 
