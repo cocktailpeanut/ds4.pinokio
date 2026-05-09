@@ -275,6 +275,7 @@ function render() {
   renderChatList()
   renderTranscript()
   renderSettings()
+  autosizePrompt()
 }
 
 function syncSetting(key, value) {
@@ -433,8 +434,14 @@ async function checkConnection() {
 }
 
 function autosizePrompt() {
+  const isEmptyHero = el.workspace.classList.contains("empty-chat") && el.prompt.value.length === 0
   el.prompt.style.height = "0"
-  el.prompt.style.height = `${Math.min(el.prompt.scrollHeight, 220)}px`
+  if (isEmptyHero) {
+    const lineHeight = Number.parseFloat(getComputedStyle(el.prompt).lineHeight)
+    el.prompt.style.height = `${Number.isFinite(lineHeight) ? lineHeight : 24}px`
+  } else {
+    el.prompt.style.height = `${Math.min(el.prompt.scrollHeight, 220)}px`
+  }
   updateComposerState()
 }
 
@@ -472,5 +479,4 @@ el.topK.addEventListener("change", () => syncSetting("top_k", Number(el.topK.val
 el.minP.addEventListener("input", () => syncSetting("min_p", Number(el.minP.value)))
 
 render()
-autosizePrompt()
 checkConnection()

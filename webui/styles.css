@@ -470,6 +470,7 @@ button {
   min-height: 38px;
   border: 0;
   background: transparent;
+  overflow: hidden;
   resize: none;
   padding: 9px 0 8px;
   font-size: 16px;
