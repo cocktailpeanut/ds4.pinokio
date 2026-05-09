@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ds4.c Chat</title>
+    <title>ds4-webui</title>
     <link rel="icon" href="/icon.svg?v=20260509-cachefix">
-    <link rel="stylesheet" href="/styles.css?v=20260509-cachefix">
+    <link rel="stylesheet" href="/styles.css?v=20260509-composer">
   </head>
   <body>
     <div class="shell">
@@ -13,7 +13,7 @@
         <header class="brand">
           <img src="/icon.svg?v=20260509-cachefix" alt="">
           <div>
-            <strong>ds4.c</strong>
+            <strong>ds4-webui</strong>
             <span id="connection">Checking</span>
           </div>
         </header>
@@ -37,9 +37,22 @@
         <section class="transcript" id="transcript" aria-live="polite"></section>
 
         <form class="composer" id="composer">
-          <textarea id="prompt" name="prompt" rows="1" placeholder="Message ds4.c"></textarea>
-          <button class="stop-button" id="stopButton" type="button" hidden>Stop</button>
-          <button class="send-button" id="sendButton" type="submit">Send</button>
+          <div class="composer-shell">
+            <textarea id="prompt" name="prompt" rows="1" placeholder="Message ds4-webui"></textarea>
+            <div class="composer-actions">
+              <button class="stop-button" id="stopButton" type="button" aria-label="Stop generating" hidden>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="8" height="8" rx="1.5"></rect>
+                </svg>
+              </button>
+              <button class="send-button" id="sendButton" type="submit" aria-label="Send message" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 19V5"></path>
+                  <path d="M6 11L12 5L18 11"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
         </form>
       </main>
 
@@ -78,6 +91,6 @@
       </aside>
     </div>
 
-    <script src="/app.js?v=20260509-cachefix"></script>
+    <script src="/app.js?v=20260509-composer"></script>
   </body>
 </html>

@@ -132,6 +132,14 @@ function renderMarkdown(value) {
   }).join("")
 }
 
+function setReasoningOpen(messageId, open) {
+  if (open) {
+    openReasoning.add(messageId)
+  } else {
+    openReasoning.delete(messageId)
+  }
+}
+
 function renderChatList() {
   el.chatList.innerHTML = ""
   for (const conversation of state.conversations) {
@@ -163,6 +171,7 @@ function renderChatList() {
 
 function renderTranscript() {
   const conversation = activeConversation()
+  const openReasoningBodies = []
   el.transcript.innerHTML = ""
 
   if (conversation.messages.length === 0) {
@@ -190,20 +199,20 @@ function renderTranscript() {
       const reasoning = document.createElement("details")
       reasoning.className = "reasoning"
       reasoning.open = openReasoning.has(message.id)
-      reasoning.addEventListener("toggle", () => {
-        if (reasoning.open) {
-          openReasoning.add(message.id)
-        } else {
-          openReasoning.delete(message.id)
-        }
-      })
       const summary = document.createElement("summary")
       summary.textContent = "Reasoning"
       const body = document.createElement("div")
       body.className = "reasoning-body"
       body.innerHTML = renderMarkdown(message.reasoning)
+      summary.addEventListener("click", (event) => {
+        event.preventDefault()
+        setReasoningOpen(message.id, !reasoning.open)
+        reasoning.open = openReasoning.has(message.id)
+        if (reasoning.open) body.scrollTop = body.scrollHeight
+      })
       reasoning.append(summary, body)
       turn.append(reasoning)
+      if (reasoning.open) openReasoningBodies.push(body)
     }
 
     const body = document.createElement("div")
@@ -213,6 +222,9 @@ function renderTranscript() {
     el.transcript.append(turn)
   }
 
+  for (const body of openReasoningBodies) {
+    body.scrollTop = body.scrollHeight
+  }
   el.transcript.scrollTop = el.transcript.scrollHeight
 }
 
@@ -239,6 +251,11 @@ function syncSetting(key, value) {
   state.settings[key] = value
   saveState()
   renderSettings()
+}
+
+function updateComposerState() {
+  const hasPrompt = el.prompt.value.trim().length > 0
+  el.sendButton.disabled = Boolean(controller) || !hasPrompt
 }
 
 function apiMessages(messages) {
@@ -321,7 +338,8 @@ async function sendMessage(prompt) {
 
   controller = new AbortController()
   el.stopButton.hidden = false
-  el.sendButton.disabled = true
+  el.sendButton.hidden = true
+  updateComposerState()
 
   try {
     const response = await fetch("/v1/chat/completions", {
@@ -367,7 +385,8 @@ async function sendMessage(prompt) {
   } finally {
     controller = null
     el.stopButton.hidden = true
-    el.sendButton.disabled = false
+    el.sendButton.hidden = false
+    updateComposerState()
     saveState()
     render()
   }
@@ -386,6 +405,7 @@ async function checkConnection() {
 function autosizePrompt() {
   el.prompt.style.height = "0"
   el.prompt.style.height = `${Math.min(el.prompt.scrollHeight, 220)}px`
+  updateComposerState()
 }
 
 el.composer.addEventListener("submit", (event) => {

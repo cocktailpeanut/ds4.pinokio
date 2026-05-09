@@ -21,8 +21,8 @@ const models = [
 
 module.exports = {
   version: "7.0",
-  title: "ds4.c",
-  description: "Metal-only DeepSeek V4 Flash inference engine with OpenAI and Anthropic-compatible local HTTP APIs.",
+  title: "ds4-webui",
+  description: "Pinokio launcher and standalone Web UI for ds4.c, a Metal-only DeepSeek V4 Flash inference server.",
   icon: "icon.png",
   menu: async (kernel, info) => {
     const installing = info.running("install.js")

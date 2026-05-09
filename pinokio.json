@@ -1,5 +1,5 @@
 {
-  "title": "ds4.c",
-  "description": "Metal-only DeepSeek V4 Flash inference server with OpenAI and Anthropic-compatible APIs.",
+  "title": "ds4-webui",
+  "description": "Pinokio launcher and standalone Web UI for ds4.c, a Metal-only DeepSeek V4 Flash inference server.",
   "icon": "icon.png"
 }
